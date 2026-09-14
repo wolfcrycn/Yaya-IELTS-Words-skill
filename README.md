@@ -130,6 +130,14 @@ $PY $SKILL/scripts/verify_watercolor_book.py   # 绘本四段回归，C 段要 C
 NODE=${NODE:-$(command -v node)} node $SKILL/scripts/verify_quiz_card.js
 ```
 
+## 更新本仓库
+
+技能本体的唯一事实来源是本机的技能目录，改完跑一次同步脚本即可：
+
+```bash
+tools/sync-from-skill.sh "feat: 一句话说明改了什么" --push
+```
+
 ## License
 
 MIT — 见 [LICENSE](./LICENSE)。词库内容来自公开词表整理，可自由使用；
