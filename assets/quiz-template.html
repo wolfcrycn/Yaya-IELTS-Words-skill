@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>丫丫雅思单词 · 单词答题卡</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 132px;background:#f6f7f9;color:#1f2430;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:720px;margin:0 auto}
+header{margin-bottom:18px}
+h1{font-size:20px;margin:0 0 6px;font-weight:600}
+.meta{font-size:13px;color:#6b7280}
+.meta b{color:#1f2430;font-weight:500}
+.lead{background:#fff;border:1px solid #e6e9ef;border-radius:12px;padding:12px 14px;
+  font-size:13px;line-height:1.7;color:#5b6472;margin-bottom:14px}
+.lead b{color:#1f2430}
+.card{background:#fff;border:1px solid #e6e9ef;border-radius:14px;padding:18px;margin-bottom:14px}
+.card:focus-within{border-color:#3b6ef6;box-shadow:0 0 0 3px rgba(59,110,246,.08)}
+.chead{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.idx{font-size:12px;color:#9aa0a8;font-weight:500}
+.chip{font-size:11px;padding:2px 8px;border-radius:6px;background:#f0f2f5;color:#6b7280}
+.chip.new{background:#eef2fe;color:#3b6ef6}
+.plabel{font-size:12px;color:#9aa0a8;margin:0 0 8px}
+.word{font-size:32px;font-weight:600;letter-spacing:-.5px;line-height:1.2;
+  margin:0;word-break:break-word}
+.mean{font-size:21px;font-weight:500;line-height:1.5;margin:0;word-break:break-word}
+.phon{font-size:14px;color:#6b7280;margin:8px 0 0}
+.phon em{font-style:normal;color:#3b6ef6;margin-left:6px}
+.hint{font-size:12px;color:#9aa0a8;margin:8px 0 0;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.eg{margin:12px 0 0;padding:9px 12px;border-left:3px solid #cfd6e2;background:#f8f9fb;
+  border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.6;color:#4b5563}
+.eg .egtag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.5px;
+  color:#8a8f98;background:#eceff4;border-radius:4px;padding:1px 5px;margin-right:7px;
+  vertical-align:1px}
+.eg .blank{color:#3b6ef6;font-weight:600;letter-spacing:1px}
+.egnone{margin:12px 0 0;padding:8px 12px;border:1px dashed #dcdfe6;border-radius:8px;
+  font-size:12.5px;line-height:1.6;color:#a0a6b0}
+.irow{display:flex;gap:8px;margin-top:14px}
+input[type=text]{flex:1;min-width:0;font:inherit;font-size:16px;padding:11px 14px;
+  border:1px solid #d5d9e0;border-radius:10px;outline:none;background:#fff;color:#1f2430}
+input[type=text]::placeholder{color:#b6bcc5}
+input[type=text]:focus{border-color:#3b6ef6;box-shadow:0 0 0 3px rgba(59,110,246,.1)}
+button.forget{flex:0 0 auto;padding:11px 18px;font:inherit;font-size:14px;border-radius:10px;
+  cursor:pointer;border:1px solid #e6e9ef;background:#fff;color:#6b7280;transition:all .12s}
+button.forget:hover{border-color:#e05252;color:#e05252;background:#fdf6f6}
+button.forget:active{transform:translateY(1px)}
+footer{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #e6e9ef;
+  padding:14px 16px;box-shadow:0 -2px 12px rgba(31,36,48,.05)}
+.fbar{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.prog{font-size:13px;color:#6b7280}
+.hint2{font-size:12px;color:#9aa0a8}
+.copy{margin-left:auto;flex:0 0 auto;padding:10px 20px;font:inherit;font-size:14px;
+  border-radius:10px;cursor:pointer;border:1px solid #3b6ef6;background:#3b6ef6;
+  color:#fff;font-weight:500;transition:all .12s}
+.copy:disabled{opacity:.45;cursor:default;border-color:#e6e9ef;background:#e6e9ef;color:#9aa0a8}
+.copy:not(:disabled):hover{background:#2f5ee0;border-color:#2f5ee0}
+</style>
+</head>
+<body>
+<h2 class="sr-only">雅思单词答题卡：看题写答案，想不起来点「忘了」，卡片只收集答案不做判定，点复制回执交给 AI 判对错</h2>
+<div class="wrap">
+  <header>
+    <h1>单词答题卡</h1>
+    <div class="meta" id="meta"></div>
+  </header>
+  <div class="lead">卡片<b>只负责收集你的答案</b>，不会判对错，也没有提交按钮。
+    每张卡带着<b>例句</b>当语境；在输入框里写下答案，<b>想不起来的直接点右边的「忘了」</b>，
+    会自动把答案填成「忘了」。全部写完点右下「<b>复制回执</b>」——它会自动把所有输入框的
+    内容抓成一段回执。把回执发给我，我来判对错、给解析并记录进度。</div>
+  <main id="cards"></main>
+</div>
+<footer>
+  <div class="fbar">
+    <span class="prog" id="prog">已填写 0 / 0</span>
+    <span class="hint2" id="hint2">在上面输入框写答案</span>
+    <button class="copy" id="copy" disabled>复制回执</button>
+  </div>
+</footer>
+<script>
+const DATA = /*__DATA__*/;
+const MODE = (DATA.meta && DATA.meta.mode) || "word";
+const ASK_CN = MODE === "word";   // true = 看英文写中文；false = 看中文写英文
+const FORGOT = "忘了";            // 点「忘了」按钮时自动填进输入框的答案
+
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"]/g, function(m){
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m];
+  });
+}
+
+/* 每次都现取 DOM 的值：没有“记录”按钮，答案就活在输入框里 */
+function values(){
+  const out = [];
+  for (let i = 0; i < DATA.cards.length; i++) {
+    const el = document.querySelector('input[data-in="' + i + '"]');
+    out.push(el ? String(el.value == null ? "" : el.value) : "");
+  }
+  return out;
+}
+
+function receipt(){
+  const m = DATA.meta || {};
+  const vals = values();
+  const head = "丫丫雅思单词答题卡回执"
+    + (m.date ? " · " + m.date : "")
+    + (m.round ? " · 第" + m.round + "轮" : "")
+    + "（" + (ASK_CN ? "看英文写中文" : "看中文写英文") + "）";
+  return head + "\n" + DATA.cards.map(function(c, i){
+    const a = (vals[i] || "").trim();
+    const prompt = ASK_CN ? c.word : c.meaning;
+    return (i + 1) + ". " + prompt + " → 我答：" + (a || "（未作答）");
+  }).join("\n");
+}
+
+/* ---- 例句 ---- */
+function escRe(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+/* 目标词 + 常见屈折形式，用来在「看中文写英文」模式下遮住答案 */
+function wordForms(w){
+  const s = String(w || "").toLowerCase();
+  if (!s) return [];
+  const out = [s];
+  if (/e$/.test(s)) out.push(s.slice(0, -1) + "ing", s + "d", s + "s");
+  else if (/y$/.test(s)) out.push(s.slice(0, -1) + "ies", s.slice(0, -1) + "ied", s + "s");
+  else out.push(s + "s", s + "es", s + "ed", s + "ing", s + "d");
+  if (/[^aeiou][aeiou][^aeiouy]$/.test(s)) out.push(s + s.slice(-1) + "ed", s + s.slice(-1) + "ing");
+  return out.filter(function(x, k, a){ return x && a.indexOf(x) === k; })
+            .sort(function(a, b){ return b.length - a.length; });
+}
+
+/* 返回遮好的句子；遮不住（还有残留）就返回 null，宁可不显示也不送答案 */
+function maskWord(ex, word){
+  let out = String(ex || "");
+  wordForms(word).forEach(function(f){
+    out = out.replace(new RegExp("\\b" + escRe(f) + "\\b", "gi"), "@@BLANK@@");
+  });
+  if (out.toLowerCase().indexOf(String(word).toLowerCase()) >= 0) return null;
+  return out;
+}
+
+function exampleHtml(c){
+  const ex = (c.example || "").trim();
+  if (!ex) {
+    return '<p class="egnone">这个词还没例句 —— 对我说「给这几个词造句」，我会补上并存下来</p>';
+  }
+  if (ASK_CN) {
+    // 看英文写中文：例句是英文，不会泄露中文答案，原样给
+    return '<p class="eg"><span class="egtag">例句</span>' + esc(ex) + '</p>';
+  }
+  const masked = maskWord(ex, c.word);
+  if (masked === null) {
+    return '<p class="egnone">例句里含有答案，已先藏起来（答完我念给你听）</p>';
+  }
+  return '<p class="eg"><span class="egtag">例句</span>' +
+    esc(masked).replace(/@@BLANK@@/g, '<span class="blank">______</span>') + '</p>';
+}
+
+function box(c, i){
+  const n = c.word.length;
+  const prompt = ASK_CN
+    ? '<p class="word">' + esc(c.word) + '</p>' +
+      '<p class="phon">' + esc(c.phonetic || "") + '<em>' + esc(c.pos || "") + '</em></p>'
+    : '<p class="mean">' + esc(c.meaning) + '</p>' +
+      '<p class="phon">' + esc(c.phonetic || "") + '<em>' + esc(c.pos || "") + '</em></p>' +
+      '<p class="hint">' + esc(c.word.charAt(0)) + " " +
+        new Array(Math.max(1, n)).join("_ ") + '　共 ' + n + ' 个字母</p>';
+  return '<article class="card" data-card="' + i + '">' +
+    '<div class="chead">' +
+      '<span class="idx">' + (i + 1) + " / " + DATA.cards.length + '</span>' +
+      '<span class="chip' + (c.is_new ? " new" : "") + '">' + (c.is_new ? "新词" : "复习") + '</span>' +
+      (c.topic ? '<span class="chip">' + esc(c.topic) + '</span>' : '') +
+      '<span class="chip">阶段 ' + (c.stage || 0) + '</span>' +
+    '</div>' +
+    '<p class="plabel">' + (ASK_CN ? "看英文，写出中文意思" : "看中文，写出英文单词") + '</p>' +
+    prompt +
+    exampleHtml(c) +
+    '<div class="irow">' +
+      '<input type="text" data-in="' + i + '" autocomplete="off" autocorrect="off" ' +
+        'autocapitalize="off" spellcheck="false" placeholder="' +
+        (ASK_CN ? "写下中文意思（回车跳到下一张）" : "写下英文单词（回车跳到下一张）") + '">' +
+      '<button type="button" class="forget" data-forget="' + i + '" title="想不起来就点它，答案记成「忘了」">' +
+        FORGOT + '</button>' +
+    '</div>' +
+    '</article>';
+}
+
+function renderMeta(){
+  const m = DATA.meta || {};
+  const bits = [];
+  if (m.round) bits.push("第 <b>" + m.round + "</b> 轮");
+  if (m.total) bits.push("本批 <b>" + m.total + "</b> 张");
+  if (m.date) bits.push(m.date);
+  if (m.progress) bits.push(m.progress);
+  document.getElementById("meta").innerHTML = bits.join("　·　");
+}
+
+/* 只刷新底栏，绝不重绘 #cards（重绘会让输入框失焦）；回执不做预览，只在点复制时现取输入框 */
+function refresh(){
+  const vals = values();
+  const filled = vals.filter(function(v){ return v.trim(); }).length;
+  const total = DATA.cards.length;
+  document.getElementById("prog").textContent = "已填写 " + filled + " / " + total;
+  document.getElementById("copy").disabled = filled === 0;
+  document.getElementById("hint2").textContent = filled === total
+    ? "都写完了，点右边复制回执"
+    : (filled ? "没写的会按「未作答」记，想不起来就点「忘了」" : "写答案，想不起来就点「忘了」");
+}
+
+function render(){
+  document.getElementById("cards").innerHTML = DATA.cards.map(box).join("");
+  refresh();
+  const first = document.querySelector('input[data-in="0"]');
+  if (first && first.focus) first.focus();
+}
+
+function doCopy(){
+  const text = receipt();
+  const ok = function(){ document.getElementById("hint2").textContent = "已复制 ✓ 粘贴发给我即可"; };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(ok, fallback);
+    return;
+  }
+  fallback();
+  function fallback(){
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      ok();
+    } catch (err) {
+      window.prompt("手动复制回执：", text);
+    }
+  }
+}
+
+function focusNext(i){
+  const next = document.querySelector('input[data-in="' + (i + 1) + '"]');
+  if (next && next.focus) { next.focus(); return next; }
+  const cur = document.querySelector('input[data-in="' + i + '"]');
+  if (cur && cur.blur) cur.blur();
+  return null;
+}
+
+document.addEventListener("input", function(e){
+  const t = e.target;
+  if (t && t.closest && t.closest("input[data-in]")) refresh();
+});
+
+document.addEventListener("click", function(e){
+  const btn = e.target && e.target.closest ? e.target.closest("button[data-forget]") : null;
+  if (!btn) return;
+  const i = Number(btn.dataset.forget);
+  const el = document.querySelector('input[data-in="' + i + '"]');
+  if (!el) return;
+  el.value = FORGOT;      // 自动填写答案
+  refresh();
+  focusNext(i);           // 直接跳到下一张，一路点下去很顺
+});
+
+document.addEventListener("keydown", function(e){
+  if (e.key !== "Enter") return;
+  const input = e.target && e.target.closest ? e.target.closest("input[data-in]") : null;
+  if (!input) return;
+  e.preventDefault();
+  focusNext(Number(input.dataset.in));
+});
+
+document.getElementById("copy").addEventListener("click", doCopy);
+renderMeta();
+render();
+</script>
+</body>
+</html>

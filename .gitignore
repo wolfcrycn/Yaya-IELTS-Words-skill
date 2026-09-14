@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 学习数据（个人进度，绝不入库）
+ielts-prep/
+*.local.json
+
+# macOS / 编辑器
+.DS_Store
+.AppleDouble
+._*
+.idea/
+.vscode/
+*.swp
+
+# 临时产物
+/tmp/
+*.log
